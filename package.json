@@ -22,8 +22,10 @@
     "@daocasino/dc-webapi": "0.2.8",
     "chalk": "2.4.2",
     "ls-remote-versions": "1.1.4",
+    "pixi-particles": "3.2.0",
     "pixi.js": "4.8.2",
-    "serviceworker-webpack-plugin": "1.0.1"
+    "serviceworker-webpack-plugin": "1.0.1",
+    "yarn": "1.13.0"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
