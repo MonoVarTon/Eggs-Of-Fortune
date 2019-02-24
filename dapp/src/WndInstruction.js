@@ -1,5 +1,5 @@
-import InterfaceObject from "./InterfaceObject.js"
-import API from "./API.js"
+import InterfaceObject from './InterfaceObject.js'
+import API from './API.js'
 
 export default class WndInstruction extends InterfaceObject {
     constructor(prnt) {
@@ -13,27 +13,27 @@ export default class WndInstruction extends InterfaceObject {
         rect.beginFill(0x000000).drawRect(-API._W / 2, -API._H / 2, API._W, API._H).endFill();
         rect.alpha = 0.5;
         this.addChild(rect);
-        let bg = API.addObj("bgWndInfo", 0, 0, 2);
+        let bg = API.addObj('bgWndInfo', 0, 0, 2);
         this.addChild(bg);
 
-        let btnOk = API.addButton("btnOk", 0, 300, 0.75);
+        let btnOk = API.addButton('btnOk', 0, 300, 0.75);
         btnOk.overSc = true;
         this.addChild(btnOk);
         this.arButtons.push(btnOk);
 
-        let tfTitle = API.addText(API.getText("instruction"), 50, "#ED9829", undefined, "center", 500)
+        let tfTitle = API.addText(API.getText('instruction'), 50, '#fc8bbb', undefined, 'center', 500)
         tfTitle.y = -330;
         this.addChild(tfTitle);
-        let tfDesc = API.addText("", 26, "#ED9829", undefined, "center", 500)
+        let tfDesc = API.addText('', 26, '#fc8bbb', undefined, 'center', 500)
         tfDesc.y = -120;
         this.addChild(tfDesc);
 
         let arIcons = [
-            { name: "btnCashout", title: "cashout" },
-            { name: "btnHistory", title: "history_game" },
-            { name: "btnContract", title: "contract" },
-            //{ name: "btnFullscreen", title: "fullscreen" },
-            //{ name: "btnDao", title: "site" }
+            { name: 'btnCashout', title: 'cashout' },
+            //{ name: 'btnHistory', title: 'history_game' },
+            { name: 'btnContract', title: 'contract' },
+            //{ name: 'btnFullscreen', title: 'fullscreen' },
+            //{ name: 'btnDao', title: 'site' }
         ];
         let xPos = 0;
         let yPos = 0;
@@ -58,11 +58,11 @@ export default class WndInstruction extends InterfaceObject {
         let ico = API.addObj(obj.name, xStart + x * 450, yStart + y * 150, 1);
         this.addChild(ico);
 
-        let tfTitle = API.addText(API.getText(obj.title), 30, "#FFCC00", undefined, "left", 300)
+        let tfTitle = API.addText(API.getText(obj.title), 30, '#fc8bbb', undefined, 'left', 300)
         tfTitle.x = ico.x + ico.width / 2 + 10;
         tfTitle.y = ico.y - ico.height / 2 + 10;
         this.addChild(tfTitle);
-        let tfDesc = API.addText(API.getText("desc_" + obj.title), 26, "#FFFFFF", undefined, "left", 300)
+        let tfDesc = API.addText(API.getText('desc_' + obj.title), 26, '#FFFFFF', undefined, 'left', 300)
         tfDesc.x = ico.x + ico.width / 2 + 10;
         tfDesc.y = tfTitle.y + tfTitle.height / 2 + 20;
         this.addChild(tfDesc);

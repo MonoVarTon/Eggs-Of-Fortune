@@ -1,6 +1,6 @@
-import InterfaceObject from "./InterfaceObject.js"
-import WndInstruction from "./WndInstruction.js"
-import API from "./API.js"
+import InterfaceObject from './InterfaceObject.js'
+import WndInstruction from './WndInstruction.js'
+import API from './API.js'
 
 export default class Menu extends InterfaceObject {
     constructor() {
@@ -8,73 +8,63 @@ export default class Menu extends InterfaceObject {
 
         this.initData();
 
-        let bg = API.addObj("bgMenu", API._W / 2, API._H / 2);
+        let bg = API.addObj('bgGame', API._W / 2, API._H / 2);
         let scaleBack = API._W / bg.w;
         bg.scale.x = scaleBack;
         bg.scale.y = scaleBack;
         this.addChild(bg);
-        let bgDark = API.addObj("bgDark", API._W / 2, API._H / 2)
-        bgDark.scale.x = scaleBack
-        bgDark.scale.y = scaleBack
-        this.addChild(bgDark)
-        let tableLogo = API.addObj("tableLogoMenuNew")
-        tableLogo.scale.x = scaleBack
-        tableLogo.scale.y = scaleBack
-        tableLogo.x = 1000 * scaleBack
-        tableLogo.y = 546 * scaleBack
-        this.addChild(tableLogo)
         
-        let titleGame = API.addObj("titleGame", 1550, 220)
+        let titleGame = API.addObj('titleGame', 960, 400)
         this.addChild(titleGame)
-        let pirateTitle = API.addObj("pirateTitle", 350, 650)
+        let pirateTitle = API.addObj('pirateTitle', 1530, 580, 0.85)
         this.addChild(pirateTitle)
 
         this.createGui()
     }
 
     createGui() {
-        let tfVersion = API.addText(API.version, 24, "#ffffff", "#000000", "right", 400, 4);
+        let tfVersion = API.addText(API.version, 24, '#ffffff', '#000000', 'right', 400, 4);
         tfVersion.x = API._W - 30;
         tfVersion.y = API._H - tfVersion.height - 10;
         this.addChild(tfVersion);
 
-        let logoDaoCasino = API.addObj("newLogoDaoCasino", 180, 980);
+        let logoDaoCasino = API.addObj('logoDaoCasino', 180, 980);
         this.addChild(logoDaoCasino);
         
-        let btnStart = API.addButton("btnText", API._W / 2, 950);
-        btnStart.name = "btnStart"
+        let btnStart = API.addButton('btnText', API._W / 2, 960);
+        btnStart.name = 'btnStart'
         btnStart.overSc = true;
         this.addChild(btnStart);
         this.arButtons.push(btnStart);
-        let tfStart = API.addText(API.getText("start"), 50, "#FFFFFF", undefined, "center", 700);
+        let tfStart = API.addText(API.getText('start'), 50, '#FFFFFF', undefined, 'center', 700);
         tfStart.x = 0;
         tfStart.y = -tfStart.height / 2;
         btnStart.addChild(tfStart);
         this.btnStart = btnStart;
         
-        let btnFacebook = API.addButton("btnFacebook", 1870, 48);
+        let btnFacebook = API.addButton('btnFacebook', 1870, 48);
         btnFacebook.overSc = true;
         this.addChild(btnFacebook);
         this.arButtons.push(btnFacebook);
-        let btnTwitter = API.addButton("btnTwitter", 1870, 123);
+        let btnTwitter = API.addButton('btnTwitter', 1870, 123);
         btnTwitter.overSc = true;
         this.addChild(btnTwitter);
         this.arButtons.push(btnTwitter);
     }
 
-    showTutor(){
-        this.btnStart.setDisabled(true);
+    showTutor(_self){
+        _self.btnStart.setDisabled(true);
         
-        if (this.wndInfo == undefined) {
-            this.wndInfo = new WndInstruction(this);
-            this.wndInfo.x = API._W / 2;
-            this.wndInfo.y = API._H / 2;
-            this.addChild(this.wndInfo);
+        if (_self.wndInfo == undefined) {
+            _self.wndInfo = new WndInstruction(_self);
+            _self.wndInfo.x = API._W / 2;
+            _self.wndInfo.y = API._H / 2;
+            _self.addChild(_self.wndInfo);
         }
 
-        this.wndInfo.show(this.startGame)
-        this.wndInfo.visible = true;
-        this.curWindow = this.wndInfo;
+        _self.wndInfo.show(_self.startGame)
+        _self.wndInfo.visible = true;
+        _self.curWindow = _self.wndInfo;
     }
 
     // CLOSE
@@ -90,22 +80,22 @@ export default class Menu extends InterfaceObject {
 
     // CLICK
     clickStart() {
-        this.showTutor();
+        this.showTutor(this);
     }
 
     startGame() {
-        this.removeAllListener()
-        API.addScreen("ScrGame");
+        // this.removeAllListener()
+        API.addScreen('ScrGame');
     }
 
     clickFB() {
-        let url = "https://www.facebook.com/DAO.Casino/";
-        window.open(url, "_blank")
+        let url = 'https://www.facebook.com/DAO.Casino/';
+        window.open(url, '_blank')
     }
 
     clickTwitter() {
-        let url = "https://twitter.com/daocasino";
-        window.open(url, "_blank")
+        let url = 'https://twitter.com/daocasino';
+        window.open(url, '_blank')
     }
 
     clickObj (item_mc) {
@@ -118,16 +108,16 @@ export default class Menu extends InterfaceObject {
         }
 
         item_mc._selected = false;
-        if (item_mc.name == "btnStart") {
+        if (item_mc.name == 'btnStart') {
             this.clickStart();
-        } else if (item_mc.name == "btnDao") {
+        } else if (item_mc.name == 'btnDao') {
             this.removeAllListener();
-            // var url = "https://platform.dao.casino/";
-            var url = "/";
-            window.open(url, "_self");
-        } else if (item_mc.name == "btnFacebook") {
+            // var url = 'https://platform.dao.casino/';
+            var url = '/';
+            window.open(url, '_self');
+        } else if (item_mc.name == 'btnFacebook') {
             this.clickFB();
-        } else if (item_mc.name == "btnTwitter") {
+        } else if (item_mc.name == 'btnTwitter') {
             this.clickTwitter();
         }
     }

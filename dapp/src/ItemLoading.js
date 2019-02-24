@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import API from "./API.js"
+import API from './API.js'
 
 export default class ItemLoading extends PIXI.Container {
     constructor(prnt) {
@@ -14,13 +14,13 @@ export default class ItemLoading extends PIXI.Container {
         let step = w / count;
 
         for (let i = 0; i < 6; i++) {
-            let circle = API.addObj("pointDark");
+            let circle = API.addObj('pointDark');
             circle.x = - w / 2 + step * i;
             this.addChild(circle);
             this._arCircles.push(circle);
         }
 
-        this._pointLight = API.addObj("pointLight");
+        this._pointLight = API.addObj('pointLight');
         this._pointLight.x = - w / 2;
         this.addChild(this._pointLight);
     }

@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
-import API from "./API.js"
-import MovieClip from "./MovieClip.js"
+import API from './API.js'
+import MovieClip from './MovieClip.js'
 
 export default class ItemResult extends MovieClip {
     constructor(value, _x, _y, delay=60) {
@@ -9,13 +9,13 @@ export default class ItemResult extends MovieClip {
         this.a = new PIXI.Container();
         this.addChild(this.a);
 
-        let str = API.getText("lose");
-        let color = "#FFFFFF";
+        let str = API.getText('lose');
+        let color = '#FFFFFF';
         if (value) {
-            str = API.getText("win");
-            color = "#ED9829";
+            str = API.getText('win');
+            color = '#ED9829';
         }
-        let tf = API.addText(str, 70, color, "#0000000", "center", 300, 4);
+        let tf = API.addText(str, 70, color, '#0000000', 'center', 300, 4);
         this.a.addChild(tf);
 
         this.d = delay

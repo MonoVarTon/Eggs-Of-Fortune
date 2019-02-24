@@ -1,17 +1,17 @@
-import API from "./API.js"
-import Callback from "./Callback.js"
-import dapp from "../dapp.logic.js"
-import manifest from "../dapp.manifest.js"
-import InterfaceObject from "./InterfaceObject.js"
-import ItemBox from "./ItemBox.js"
-import ItemLoading from "./ItemLoading.js"
-import ItemResult from "./ItemResult.js"
-import ItemTooltip from "./ItemTooltip.js"
-import ItemTutorial from "./ItemTutorial.js"
-import WndDeposit from "./WndDeposit.js"
-import WndInfo from "./WndInfo.js"
-import WndInstruction from "./WndInstruction.js"
-import WndWin from "./WndWin.js"
+import API from './API.js'
+import Callback from './Callback.js'
+import dapp from '../dapp.logic.js'
+import manifest from '../dapp.manifest.js'
+import InterfaceObject from './InterfaceObject.js'
+import ItemBox from './ItemBox.js'
+import ItemLoading from './ItemLoading.js'
+import ItemResult from './ItemResult.js'
+import ItemTooltip from './ItemTooltip.js'
+import ItemTutorial from './ItemTutorial.js'
+import WndDeposit from './WndDeposit.js'
+import WndInfo from './WndInfo.js'
+import WndInstruction from './WndInstruction.js'
+import WndWin from './WndWin.js'
 
 export default class Game extends InterfaceObject {
     constructor() {
@@ -21,18 +21,11 @@ export default class Game extends InterfaceObject {
 
         this.cb = new Callback()
 
-        let bg = API.addObj("bgGame", API._W / 2, API._H / 2);
+        let bg = API.addObj('bgGame', API._W / 2, API._H / 2);
         let scaleBack = API._W / bg.w;
         bg.scale.x = scaleBack;
         bg.scale.y = scaleBack;
         this.addChild(bg);
-
-        let tableLogo = API.addObj("tableLogoGameNew");
-        tableLogo.scale.x = scaleBack;
-        tableLogo.scale.y = scaleBack;
-        tableLogo.x = 952 * scaleBack;
-        tableLogo.y = 546 * scaleBack;
-        this.addChild(tableLogo);
         
         this.createLayers();
         this.createBooleans();
@@ -43,6 +36,7 @@ export default class Game extends InterfaceObject {
         this.createGui();
         this.createBtn();
         this.refreshData();
+        // this.options_fullscreen = false;
     }
 
     // CREATE
@@ -65,7 +59,6 @@ export default class Game extends InterfaceObject {
     }
 
     createBooleans() {
-        this._gameOver = true;
         this._bWindow = false;
         this._bCloseChannel = false;
     }
@@ -78,7 +71,7 @@ export default class Game extends InterfaceObject {
         this._balanceEth = 0;
         this._balanceSession = 0;
         this._timeCloseWnd = 0;
-        this._depositBankroll = 0;
+        this._balanceBankrollerBet = 0;
         this._profit = 0;
     }
 
@@ -88,14 +81,14 @@ export default class Game extends InterfaceObject {
 
     createStrings() {
         if(API.options_debug){
-            this._openkey = "0x000000000000000000000000000000000000000"
-            this.DC_NETWORK = "local"
+            this._openkey = '0x000000000000000000000000000000000000000'
+            this.DC_NETWORK = 'local'
         } else {
             this._openkey = window.account._address
             this.DC_NETWORK = window.account._params.config.blockchainNetwork
         }
 
-        this.urlEtherscan = "https://" + this.DC_NETWORK + ".etherscan.io/"
+        this.urlEtherscan = 'https://' + this.DC_NETWORK + '.etherscan.io/'
     }
 
     createGui() {
@@ -109,44 +102,44 @@ export default class Game extends InterfaceObject {
         this._bgDark.visible = false;
         this.back_mc.addChild(this._bgDark);
 
-        let icoKey = API.addObj("icoKey", 52, posY);
+        let icoKey = API.addObj('icoKey', 52, posY);
         this.face_mc.addChild(icoKey);
-        let icoBet = API.addObj("icoBet", 52, posY + offsetY * 1);
+        let icoBet = API.addObj('icoBet', 52, posY + offsetY * 1);
         this.face_mc.addChild(icoBet);
-        this._tfAddress = API.addText(this._openkey, sizeTf, "#ffffff", "#000000", "left", 600, 4);
+        this._tfAddress = API.addText(this._openkey, sizeTf, '#ffffff', '#000000', 'left', 600, 4);
         this._tfAddress.x = icoKey.x + icoKey.w / 2 + 10;
         this._tfAddress.y = icoKey.y - this._tfAddress.height / 2;
         this.face_mc.addChild(this._tfAddress);
-        this._tfBalance = API.addText("0  BET", sizeTf, "#ffffff", "#000000", "left", 400, 4);
+        this._tfBalance = API.addText('0  BET', sizeTf, '#ffffff', '#000000', 'left', 400, 4);
         this._tfBalance.x = this._tfAddress.x;
         this._tfBalance.y = icoBet.y - this._tfBalance.height / 2;
         this.face_mc.addChild(this._tfBalance);
-        this._tfOpenTime = API.addText("", sizeTf, "#ffffff", "#000000", "center", 400, 4);
+        this._tfOpenTime = API.addText('', sizeTf, '#ffffff', '#000000', 'center', 400, 4);
         this._tfOpenTime.x = API._W / 2;
         this._tfOpenTime.y = API._H - 100 - this._tfOpenTime.height / 2;
         this.face_mc.addChild(this._tfOpenTime);
-        this._tfBlockchain = API.addText("", sizeTf, "#FFCC00", "#000000", "center", 700, 4);
+        this._tfBlockchain = API.addText('', sizeTf, '#FFCC00', '#000000', 'center', 700, 4);
         this._tfBlockchain.x = API._W / 2;
         this._tfBlockchain.y = API._H - 150 - this._tfBlockchain.height / 2;
         this.face_mc.addChild(this._tfBlockchain);
-        this._tfWarning = API.addText("", sizeTf, "#EC8200", "#000000", "center", 700, 4);
+        this._tfWarning = API.addText('', sizeTf, '#EC8200', '#000000', 'center', 700, 4);
         this._tfWarning.x = API._W / 2;
         this._tfWarning.y = API._H - 250 - this._tfWarning.height / 2;
         this.face_mc.addChild(this._tfWarning);
-        let tfVersion = API.addText(API.version, 24, "#ffffff", "#000000", "right", 400, 4);
+        let tfVersion = API.addText(API.version, 24, '#ffffff', '#000000', 'right', 400, 4);
         tfVersion.x = API._W - 30;
         tfVersion.y = API._H - tfVersion.height - 10;
         this.face_mc.addChild(tfVersion);
 
         this._itemBet = new PIXI.Container();
-        this._itemBet.x = API._W / 2;
-        this._itemBet.y = 878;
+        this._itemBet.x = 1500;
+        this._itemBet.y = 920;
         this.back_mc.addChild(this._itemBet);
-        let bgBet = API.addObj("bgBet");
+        let bgBet = API.addObj('bgBet');
         this._itemBet.addChild(bgBet);
-        let itemBet = API.addObj("itemBet", -120);
+        let itemBet = API.addObj('itemBet', -120);
         this._itemBet.addChild(itemBet);
-        this._tfBet = API.addText("", 60, "#ED9829", "#000000", "left", 400);
+        this._tfBet = API.addText('', 60, '#ffffff', '#000000', 'left', 400);
         this._tfBet.x = -50;
         this._tfBet.y = -this._tfBet.height / 2 - 5;
         this._itemBet.addChild(this._tfBet);
@@ -156,22 +149,14 @@ export default class Game extends InterfaceObject {
     createBtn(){
         let doc = window.document;
         let docEl = doc.documentElement;
-        this._fRequestFullScreen = docEl.requestFullscreen ||
-            docEl.mozRequestFullScreen ||
-            docEl.webkitRequestFullScreen ||
-            docEl.msRequestFullscreen;
-        this._fCancelFullScreen = doc.exitFullscreen ||
-            doc.mozCancelFullScreen ||
-            doc.webkitExitFullscreen ||
-            doc.msExitFullscreen;
 
-        this._btnStart = API.addButton("btnText", API._W / 2, 878);
+        this._btnStart = API.addButton('btnText', API._W / 2, 950);
         this._btnStart.overSc = true;
-        this._btnStart.name = "btnStart";
+        this._btnStart.name = 'btnStart';
         this._btnStart.visible = false;
         this.face_mc.addChild(this._btnStart);
         this.arButtons.push(this._btnStart);
-        let tfStart = API.addText(API.getText("new_game"), 34, "#FFFFFF", undefined, "center", 240);
+        let tfStart = API.addText(API.getText('new_game'), 34, '#ffffff', undefined, 'center', 240);
         tfStart.x = 0;
         tfStart.y = -tfStart.height / 2;
         this._btnStart.addChild(tfStart);
@@ -189,7 +174,7 @@ export default class Game extends InterfaceObject {
         btnFrame.over.drawRect(-wAdr / 2, -hAdr / 2, wAdr, hAdr);
         btnFrame.over.visible = false;
         btnFrame.addChild(btnFrame.over);
-        btnFrame.name = "btnAddress";
+        btnFrame.name = 'btnAddress';
         btnFrame.w = objImg.width;
         btnFrame.h = objImg.height;
         btnFrame.x = this._tfAddress.x + btnFrame.w / 2 - 2;
@@ -204,38 +189,32 @@ export default class Game extends InterfaceObject {
         let posX = 1840;
         let posY = 960;
         let offsetY = 135;
-        this._btnContract = API.addButton("btnContract", posX, posY - 0 * offsetY);
-        this._btnContract.tooltip = "show_contract";
+        this._btnContract = API.addButton('btnContract', posX, posY - 0 * offsetY);
+        this._btnContract.tooltip = 'show_contract';
         this._btnContract.overSc = true;
         this.face_mc.addChild(this._btnContract);
         this.arButtons.push(this._btnContract);
-        let btnInstruct = API.addButton("btnInstruct", posX, posY - 1 * offsetY);
-        btnInstruct.tooltip = "instruction";
-        btnInstruct.overSc = true;
-        this.face_mc.addChild(btnInstruct);
-        this.arButtons.push(btnInstruct);
-        let btnHistory = API.addButton("btnHistory", posX, posY - 2 * offsetY);
-        btnHistory.tooltip = "show_history";
-        btnHistory.overSc = true;
-        this.face_mc.addChild(btnHistory);
-        this.arButtons.push(btnHistory);
-        this._btnCashout = API.addButton("btnCashout", posX, posY - 3 * offsetY);
-        this._btnCashout.tooltip = "cashout";
+        this._btnInstruct = API.addButton('btnInstruct', posX, posY - 1 * offsetY);
+        this._btnInstruct.tooltip = 'instruction';
+        this._btnInstruct.overSc = true;
+        this.face_mc.addChild(this._btnInstruct);
+        this.arButtons.push(this._btnInstruct);
+        this._btnCashout = API.addButton('btnCashout', posX, posY - 2 * offsetY);
+        this._btnCashout.tooltip = 'cashout';
         this._btnCashout.overSc = true;
         this.face_mc.addChild(this._btnCashout);
         this.arButtons.push(this._btnCashout);
-        let btnFacebook = API.addButton("btnFacebook", 1870, 48);
+        let btnFacebook = API.addButton('btnFacebook', 1870, 48);
         btnFacebook.overSc = true;
         this.face_mc.addChild(btnFacebook);
         this.arButtons.push(btnFacebook);
-        let btnTwitter = API.addButton("btnTwitter", 1870, 123);
+        let btnTwitter = API.addButton('btnTwitter', 1870, 123);
         btnTwitter.overSc = true;
         this.face_mc.addChild(btnTwitter);
         this.arButtons.push(btnTwitter);
         
         this._btnCashout.setAplhaDisabled(true);
         this._btnContract.setAplhaDisabled(true);
-        btnHistory.setAplhaDisabled(true);
         
         // Tooltip
         this._tooltip = new ItemTooltip();
@@ -247,13 +226,12 @@ export default class Game extends InterfaceObject {
 
     createTreasure() {
         let w = 1300;
-        let offset = w / 3;
-        let arPosY = [400, 250, 400];
-        let arName = ["L", "", "R"];
+        let offset = w / 4;
+        let arPosY = [350, 350, 350, 350];
 
-        for (let i = 0; i < 3; i++) {
-            let box = new ItemBox(this, arName[i]);
-            box.x = API._W / 2 - w / 2 + offset * i + offset / 2;
+        for (let i = 0; i < 4; i++) {
+            let box = new ItemBox(this, i);
+            box.x = API._W / 2 - w / 2 + offset * i + offset / 2 -200 + (i+1)*(200/4);
             box.y = arPosY[i];
             box.id = (i + 1);
             this.game_mc.addChild(box);
@@ -283,20 +261,20 @@ export default class Game extends InterfaceObject {
     // REFRESH
     refreshData() {
         const _self = this
-        this.showWndWarning(API.getText("loading"))
+        this.showWndWarning(API.getText('loading'))
 
         this.getBalances(function () {
             _self._wndWarning.visible = false
             if (_self._balanceEth == 0 || _self._balanceBet == 0) {
-                _self.showError("error_balance", function () {
-                    //TODO
+                _self.showError('error_balance', function () {
+                    _self.showMenu(_self)
                 })
                 return
             }
 
             if (_self._balanceEth < 0.1) {
-                _self.showError("error_balance_eth", function () {
-                    //TODO
+                _self.showError('error_balance_eth', function () {
+                    _self.showMenu(_self)
                 })
             } else {
                 _self.showWndDeposit()
@@ -325,7 +303,7 @@ export default class Game extends InterfaceObject {
                     callback()
                 })
             } else {
-                this.showError("error_account", _self.showMenu)
+                this.showError('error_account', _self.showMenu)
             }
         }
     }
@@ -333,7 +311,7 @@ export default class Game extends InterfaceObject {
     refreshBalance(){
         this._balanceBet = Math.floor(this._balanceBet)
         this._balanceSession = Math.floor(this._balanceSession)
-        let str = this._balanceSession + "/(" + this._balanceBet + ") BET"
+        let str = this._balanceSession + '/(' + this._balanceBet + ') BET'
         this._tfBalance.setText(str)
     }
 
@@ -363,13 +341,16 @@ export default class Game extends InterfaceObject {
 
         const _self = this
         this._bWindow = true
-        let str = API.getText("set_deposit").replace(new RegExp("SPL"), "\n")
+        let str = API.getText('set_deposit').replace(new RegExp('SPL'), '\n')
         this._wndDeposit.show(
             str,
             function (value) {
                 _self.createGame(value)
             },
-            _self._balanceBet
+            _self._balanceBet,
+            function () {
+                _self.showMenu(_self)
+            }
         )
         this._timeCloseWnd = 0
         this._wndDeposit.visible = true
@@ -382,10 +363,10 @@ export default class Game extends InterfaceObject {
         }
         if (this._wndBet == undefined) {
             let style = {
-                bg: "bgWndBet",
-                colorDesc: "#FFCC00"
+                bg: 'bgWndBet',
+                colorDesc: '#FFCC00'
             }
-            this._wndBet = new WndDeposit(this, style)
+            this._wndBet = new WndDeposit(this)
             this._wndBet.x = API._W / 2
             this._wndBet.y = API._H / 2
             this.wnd_mc.addChild(this._wndBet)
@@ -400,20 +381,26 @@ export default class Game extends InterfaceObject {
 
         const _self = this
         this._bWindow = true
-        let str = API.getText("set_bet").replace(new RegExp("SPL"), "\n")
+        let str = API.getText('set_bet').replace(new RegExp('SPL'), '\n')
         this._wndBet.show(
             str,
             function (value) {
                 _self.setBet(value)
             },
-            this._balanceSession
+            this._balanceSession,
+            function () {
+                if (_self._idTutor == 2) {
+                  _self._itemTutorial.visible = false
+                }
+                _self._btnStart.visible = true
+            }
         )
         this._timeCloseWnd = 0
         this._wndBet.visible = true
         this._curWindow = this._wndBet
     }
 
-    showWndWin() {
+    showWndWin(val) {
         if (this._bWindow) {
             return
         }
@@ -423,15 +410,25 @@ export default class Game extends InterfaceObject {
             this._wndWin.y = API._H / 2
             this.wnd_mc.addChild(this._wndWin)
         }
-        let str = API.getText("win") + "!"
-        str = "+" + this._profit
+        let _self = this
+        let str = API.getText(val) + '!'
+        if (val == 'win'){
+            str = '+' + this._profit
+            this._wndWin.show(API.getText(val), str, this.closeGame)
+        } else {
+            str = this._profit
+            this._wndWin.show(API.getText(val), str, function(){
+                _self.closeGame(_self)
+                _self.showTutorial(4)
+            })
+        }
         if (this._tooltip) {
             this._tooltip.visible = false
         }
 
         this._itemTutorial.visible = false
         this._bWindow = true
-        this._wndWin.show(str, this.closeGame)
+        // this._wndWin.show(str, this.closeGame)
         this._timeCloseWnd = 0
         this._wndWin.visible = true
         this._curWindow = this._wndWin
@@ -453,13 +450,27 @@ export default class Game extends InterfaceObject {
         this._objTutor[id] = true
 
         switch (id) {
+            case 1:
+            case 2:
+            case 4:
+                this._itemTutorial.x = 1500;
+                this._itemTutorial.y = 750;
+                break;
+            case 3:
+                this._itemTutorial.x = 960;
+                this._itemTutorial.y = 500;
+                break;
+            case 5:
+                this._itemTutorial.x = 1150;
+                this._itemTutorial.y = 300;
+                break;
             default:
-                this._itemTutorial.x = 1450
-                this._itemTutorial.y = 850
-                break
+                this._itemTutorial.x = _W/2;
+                this._itemTutorial.y = _H/2;
+                break;
         }
 
-        this._itemTutorial.show(API.getText("tutor_" + id))
+        this._itemTutorial.show(API.getText('tutor_' + id))
         this._itemTutorial.visible = true
     }
 
@@ -479,10 +490,10 @@ export default class Game extends InterfaceObject {
     }
 
     showMenu(_self) {
-        API.addScreen("ScrMenu");
+        API.addScreen('ScrMenu');
     }
 
-    showWndWarning(str) {
+    showWndWarning(str, time) {
         let _wndWarning = this._wndWarning;
 
         if (_wndWarning == undefined) {
@@ -491,22 +502,25 @@ export default class Game extends InterfaceObject {
             _wndWarning.y = API._H / 2
             this.warning_mc.addChild(_wndWarning)
 
-            let bg = API.addObj("bgWndWarning")
+            let bg = API.addObj('bgWndWarning')
             _wndWarning.addChild(bg)
             let tfTitle = API.addText(
-                API.getText("please_wait"),
+                API.getText('please_wait'),
                 40,
-                "#FFCC00",
-                "#000000",
-                "center",
+                '#FFCC00',
+                '#000000',
+                'center',
                 470,
                 3
             )
             tfTitle.y = -100
             _wndWarning.addChild(tfTitle)
-            let tf = API.addText("", 26, "#FFFFFF", "#000000", "center", 470, 3)
+            let tf = API.addText('', 26, '#FFFFFF', '#000000', 'center', 470, 3)
             tf.y = -30
             _wndWarning.addChild(tf)
+            let tfTime = API.addText('', 34, '#30c132', '#000000', 'center', 470, 3)
+            tfTime.y = 0
+            _wndWarning.addChild(tfTime)
 
             let loading = new ItemLoading()
             loading.x = 0
@@ -514,18 +528,26 @@ export default class Game extends InterfaceObject {
             _wndWarning.addChild(loading)
 
             _wndWarning.tf = tf
+            _wndWarning.tfTime = tfTime
             _wndWarning.loading = loading
         }
 
         _wndWarning.tf.setText(str)
-        _wndWarning.tf.y = -_wndWarning.tf.height / 2
+        _wndWarning.tf.y = -_wndWarning.tf.height / 2 -30
+        if (time){
+            _wndWarning.time = time
+            _wndWarning.tfTime.setText(API.getNormalTime(time))
+        } else {
+            _wndWarning.time = 0
+            _wndWarning.tfTime.setText('')
+        }
         _wndWarning.visible = true
 
         this._wndWarning = _wndWarning
     }
 
     showError(value, callback) {
-        let str = "ERROR! \n\n " + API.getText(value);
+        let str = 'ERROR! \n\n ' + API.getText(value);
 
         if (this._wndWarning) {
             this._wndWarning.visible = false
@@ -534,7 +556,7 @@ export default class Game extends InterfaceObject {
 
         this.createWndInfo(str, function () {
             if (callback) {
-                if (typeof callback == "function") {
+                if (typeof callback == 'function') {
                     callback()
                 }
             }
@@ -563,7 +585,7 @@ export default class Game extends InterfaceObject {
             await window.game.createGame(params)
         }
 
-        this.showWndWarning(API.getText("search_bankroller"))
+        this.showWndWarning(API.getText('search_bankroller'), 120 * 1000)
         this.connectToBankroll(deposit)
     }
 
@@ -575,7 +597,7 @@ export default class Game extends InterfaceObject {
         try {
             const resultConnect = await window.game.connect({playerDeposit: deposit})
             if (resultConnect.channelBalances) {
-                this._depositBankroll = resultConnect.channelBalances.bankroller
+                this._balanceBankrollerBet = resultConnect.channelBalances.bankroller
             }
             this._addressBankroll = resultConnect.dealerAddress
             this.addressContract = manifest.getContract(this.DC_NETWORK).address
@@ -584,17 +606,18 @@ export default class Game extends InterfaceObject {
         } catch (error) {
             let str = error.message || error
             this.showError(API.getText(str))
-            console.error(error)
+            console.error('error',error)
         }
     }
 
     connected(deposit) {
         const _self = this
-        this._tfOpenTime.setText("")
-        this._tfBlockchain.setText("")
-        this._tfWarning.setText("")
+        this._tfOpenTime.setText('')
+        this._tfBlockchain.setText('')
+        this._tfWarning.setText('')
 
         this._wndWarning.visible = false
+        this._wndWarning.time = 0
         this._balanceSession = deposit
         this._depositPlayer = deposit
 
@@ -609,11 +632,12 @@ export default class Game extends InterfaceObject {
             _self.closeWindow()
             _self.createTreasure()
             _self.showWndBet()
+            _self._btnCashout.setAplhaDisabled(false)
         })
     }
 
     disconnect() {
-        if (this._bCloseChannel || API.options_debug || !this._gameOver) {
+        if (this._bCloseChannel || API.options_debug) {
             return false
         }
 
@@ -622,21 +646,22 @@ export default class Game extends InterfaceObject {
         this._itemTutorial.visible = false
         this._btnCashout.setAplhaDisabled(true)
 
-        this.showWndWarning(API.getText("disconnecting"))
+        this.showWndWarning(API.getText('disconnecting'))
         this._btnStart.visible = false
 
         window.game.disconnect().then(function (res) {
             _self._wndWarning.visible = false
             _self._balanceSession = 0
-            _self._tfOpenTime.setText("")
-            _self._tfBlockchain.setText("")
+            _self._tfOpenTime.setText('')
+            _self._tfBlockchain.setText('')
             _self.refreshButtons()
-            //console.log("Game disconnect:", res)
+            //console.log('Game disconnect:', res)
             if (res.resultBalances) {
-                _self.createWndInfo(API.getText("close_channel"), _self.showMenu)
+                _self.createWndInfo(API.getText('close_channel'), _self.showMenu)
             } else {
-                _self.showError("disconnected", function () {
-                    // TODO
+                _self.showError(API.getText('disconnected'), function () {
+                    _self._bCloseChannel = false
+                    _self._btnCashout.setAplhaDisabled(false)
                 })
             }
         })
@@ -649,13 +674,12 @@ export default class Game extends InterfaceObject {
         this.refreshBalance()
         this._itemBet.visible = true
         this._bgDark.visible = false
-        this._gameOver = false
 
         if (this._idTutor == 2) {
             this.showTutorial(3)
         }
 
-        this._tfBet.setText(this._betGame)
+        this._tfBet.setText(this._betGame+' BET')
     }
 
     refreshBoxes() {
@@ -667,32 +691,41 @@ export default class Game extends InterfaceObject {
 
     newGame() {
         if (this._balanceSession < 1) {
-            this.showError("error_balance_bet", function () {
-                //TODO
+            let _self = this
+            this.showError(API.getText('error_balance_bet'), function () {
+                _self.showMenu(_self)
             })
         } else {
             if (this._idTutor == 4) {
                 this._itemTutorial.visible = false
+            } else if (this._idTutor == 2) {
+                this._itemTutorial.visible = true
             }
             this.refreshBoxes()
-            this._gameOver = false
             this._btnStart.visible = false
-            this._btnCashout.setAplhaDisabled(true)
             this.showWndBet()
         }
     }
 
     closeGame(_self){
-        _self._gameOver = true
         _self._bgDark.visible = false
         _self._itemBet.visible = false
         _self._bCloseChannel = false
         if (API.options_debug) {
             _self._btnStart.visible = true
         } else {
-            _self._btnCashout.setAplhaDisabled(false)
             if (_self._balanceSession == 0) {
-                _self.disconnect()
+                // todo
+                console.log('balance session 0, open info window')
+                this._wndInfo = new WndInfo(this)
+                this._wndInfo.x = API._W / 2
+                this._wndInfo.y = API._H / 2
+                this.wnd_mc.addChild(this._wndInfo)
+                this._wndInfo.show(API.getText('error_balance_bet'), function () {
+                    _self.disconnect()
+                })
+                this._wndInfo.visible = true
+                this._curWindow = this._wndInfo
             } else {
                 _self._btnStart.visible = true
             }
@@ -713,8 +746,18 @@ export default class Game extends InterfaceObject {
 
     // CLICK
     clickBox(box) {
+        // box.over.visible=false
         let _self = this;
-        this._gameOver = true
+        if (this._balanceBankrollerBet < this._betGame * manifest.rules.depositX && !API.options_debug) {
+            this.showError(API.getText('error_balance_bankroll_bet'), function () {
+                _self._balanceSession = Number(_self._balanceSession) + _self._betGame
+                _self._betGame = 0
+                _self._itemBet.visible = false
+                _self.refreshBalance()
+                _self.showWndBet()
+            })
+            return;
+        }
         this._idBox = box.id
         box.setSelected(true)
 
@@ -725,18 +768,19 @@ export default class Game extends InterfaceObject {
         let params = {
             userBets: [this._betGame],
             gameData: {
-                randomRanges: [[1, 3]],
+                randomRanges: [[1, 4]],
                 custom: { playerNumbers: { t: 'uint256', v: [this._idBox] } }
             }
         }
         
         if(API.options_debug){
-            let rnd = Math.ceil(Math.random()*3)
+            let rnd = Math.ceil(Math.random()*4)
             let pr = -this._betGame
             let win = (rnd == this._idBox)
             if (win){
                 pr = this._betGame * 2
-            }
+            } else
+                pr = 0;
             let result = {
                 profit: (this._balanceSession + pr), 
                 balances: { 
@@ -758,18 +802,18 @@ export default class Game extends InterfaceObject {
     }
 
     clickFB(){
-        let url = "https://www.facebook.com/DAO.Casino/";
-        window.open(url, "_blank")
+        let url = 'https://www.facebook.com/DAO.Casino/';
+        window.open(url, '_blank')
     }
 
     clickTwitter() {
-        let url = "https://twitter.com/daocasino";
-        window.open(url, "_blank")
+        let url = 'https://twitter.com/daocasino';
+        window.open(url, '_blank')
     }
 
     clickContract() {
-        var url = this.urlEtherscan + "address/" + this.addressContract;
-        window.open(url, "_blank");
+        var url = this.urlEtherscan + 'address/' + this.addressContract;
+        window.open(url, '_blank');
     }
 
     clickCashout() {
@@ -786,7 +830,7 @@ export default class Game extends InterfaceObject {
         }
 
         item_mc._selected = false
-        if (item_mc.over && item_mc.name != "ItemBox") {
+        if (item_mc.over && item_mc.name != 'ItemBox') {
             item_mc.over.visible = false
         }
         if (item_mc.overSc) {
@@ -794,27 +838,29 @@ export default class Game extends InterfaceObject {
             item_mc.scale.y = 1 * item_mc.sc
         }
 
-        if (item_mc.name == "ItemBox") {
+        if (item_mc.name == 'ItemBox') {
             this.clickBox(item_mc)
-        } else if (item_mc.name == "btnStart") {
+        } else if (item_mc.name == 'btnStart') {
             this.newGame()
-        } else if (item_mc.name == "btnHistory") {
+        } else if (item_mc.name == 'btnHistory') {
             //this.showWndHistory()
-        } else if (item_mc.name == "btnContract") {
+        } else if (item_mc.name == 'btnContract') {
             this.clickContract()
-        } else if (item_mc.name == "btnCashout") {
+        } else if (item_mc.name == 'btnCashout') {
             this.clickCashout()
-        } else if (item_mc.name == "btnInstruct") {
+        } /*else if (item_mc.name == 'btnFullscreen') {
+            this.fullscreen()
+        }*/ else if (item_mc.name == 'btnInstruct') {
             this.showInstruction()
-        } else if (item_mc.name == "btnAddress") {
-            let url = this.urlEtherscan + "address/" + this._openkey
-            window.open(url, "_blank")
-        } else if (item_mc.name == "btnDao") {
-            let url = "https://platform.dao.casino/";
-            window.open(url, "_blank")
-        } else if (item_mc.name == "btnFacebook") {
+        } else if (item_mc.name == 'btnAddress') {
+            let url = this.urlEtherscan + 'address/' + this._openkey
+            window.open(url, '_blank')
+        } else if (item_mc.name == 'btnDao') {
+            let url = 'https://platform.dao.casino/';
+            window.open(url, '_blank')
+        } else if (item_mc.name == 'btnFacebook') {
             this.clickFB()
-        } else if (item_mc.name == "btnTwitter") {
+        } else if (item_mc.name == 'btnTwitter') {
             this.clickTwitter()
         }
     }
@@ -833,52 +879,43 @@ export default class Game extends InterfaceObject {
         for (let i = 0; i < this.arButtons.length; i++) {
             let item_mc = this.arButtons[i]
             if (API.hit_test_rec(item_mc, item_mc.w, item_mc.h, mouseX, mouseY)) {
-                if (
-                    item_mc._selected == false &&
-                    !item_mc._disabled &&
-                    item_mc.visible
-                ) {
-                    item_mc._selected = true
-                    if (item_mc.over) {
-                        if (item_mc.name == "ItemBox") {
-                            if (this._gameOver) {
-                                item_mc._selected = false
-                                break
-                            }
-                            item_mc.main.visible = false
+                if(item_mc._selected == false && !item_mc._disabled && item_mc.visible){
+                    item_mc._selected = true;
+                    if(item_mc.over){
+                        item_mc.over.visible = true;
+                        if(item_mc.name == 'ItemBox'){
+                            item_mc.main.visible = false;
                         }
-                        item_mc.over.visible = true
-                    } else if (item_mc.overSc) {
-                        item_mc.scale.x = 1.1 * item_mc.sc
-                        item_mc.scale.y = 1.1 * item_mc.sc
+                    } else if(item_mc.overSc){
+                        item_mc.scale.x = 1.1*item_mc.sc;
+                        item_mc.scale.y = 1.1*item_mc.sc;
                     }
                 }
-
                 if (item_mc.visible) {
                     if (this._tooltip && item_mc.tooltip) {
-                        this._tooltip.show(API.getText(item_mc.tooltip))
-                        this._tooltip.x = item_mc.x - (item_mc.w / 2 + this._tooltip.w / 2)
-                        this._tooltip.y = item_mc.y
-                        this._tooltip.visible = true
-                        if (this._tooltip.x + this._tooltip.w / 2 > API._W) {
-                            this._tooltip.x = API._W - this._tooltip.w / 2
-                        }
-                        if (this._tooltip.y - this._tooltip.h / 2 < 0) {
+                        this._tooltip.show(API.getText(item_mc.tooltip))   
+                        this._tooltip.x = item_mc.x - (item_mc.w / 2 + this._tooltip.w / 2)    
+                        this._tooltip.y = item_mc.y    
+                        this._tooltip.visible = true   
+                        if (this._tooltip.x + this._tooltip.w / 2 > API._W) {  
+                            this._tooltip.x = API._W - this._tooltip.w / 2 
+                        }  
+                        if (this._tooltip.y - this._tooltip.h / 2 < 0) {   
                             this._tooltip.y = this._tooltip.h / 2
                         }
                     }
                 }
             } else {
-                if (item_mc._selected) {
-                    item_mc._selected = false
-                    if (item_mc.over) {
-                        item_mc.over.visible = false
-                        if (item_mc.name == "ItemBox") {
-                            item_mc.main.visible = true
+                if(item_mc._selected){
+                    item_mc._selected = false;
+                    if(item_mc.over){
+                        item_mc.over.visible = false;
+                        if(item_mc.name == 'ItemBox'){
+                            item_mc.main.visible = true;
                         }
-                    } else if (item_mc.overSc) {
-                        item_mc.scale.x = 1 * item_mc.sc
-                        item_mc.scale.y = 1 * item_mc.sc
+                    } else if(item_mc.overSc){
+                        item_mc.scale.x = 1*item_mc.sc;
+                        item_mc.scale.y = 1*item_mc.sc;
                     }
                 }
             }
@@ -893,6 +930,16 @@ export default class Game extends InterfaceObject {
         if (this._wndWarning) {
             if (this._wndWarning.visible) {
                 this._wndWarning.loading.update(diffTime)
+                if (this._wndWarning.time > 0){
+                    this._wndWarning.time -= diffTime
+                    this._wndWarning.tfTime.setText(API.getNormalTime(this._wndWarning.time))
+                    if (this._wndWarning.time <= 1){
+                        const _self = this
+                        this.showError(API.getText('error_bankroll_offline'), function () {
+                            _self.showMenu(_self)
+                        })
+                    }
+                }
             }
         }
 
@@ -910,14 +957,16 @@ export default class Game extends InterfaceObject {
     showResult(result, box) {
         const _self = this
         this._balanceSession = result.balances.player
+        this._balanceBankrollerBet = result.balances.bankroller
         this.refreshBalance()
         this._profit = result.profit
+        // this._tfWinStr.setText(_objGame.countWinStr);
 
         for (let i = 0; i < this._arBoxes.length; i++) {
             let item_mc = this._arBoxes[i]
             item_mc.setDisabled(true)
         }
-
+        box.over.visible = false
         let randomNum = result.randomNums[0]
         let win = box.id === randomNum
 
@@ -933,6 +982,8 @@ export default class Game extends InterfaceObject {
         this.cb.call(1000, function () {
             for (let i = 0; i < _self._arBoxes.length; i++) {
                 let item_mc = _self._arBoxes[i]
+                if (item_mc.id == box.id)
+                    continue;
                 if (item_mc.id == randomNum) {
                     item_mc.openBox(true)
                 } else {
@@ -948,11 +999,9 @@ export default class Game extends InterfaceObject {
     fixResult(win) {
         this._idBox = 0
         if (win) {
-            this.showWndWin()
+            this.showWndWin('win')
         } else {
-            // Game Over
-            this.closeGame(this)
-            this.showTutorial(4)
+            this.showWndWin('lose')
         }
     }
 }

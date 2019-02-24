@@ -1,13 +1,13 @@
 import * as PIXI from 'pixi.js'
-import LangEn from "./LangEn.js"
-import ScrMenu from "./ScrMenu.js"
-import ScrGame from "./ScrGame.js"
+import LangEn from './LangEn.js'
+import ScrMenu from './ScrMenu.js'
+import ScrGame from './ScrGame.js'
 
 class _API extends PIXI.Container {
     constructor() {
         super();
         
-        this.version = "1.0.2";
+        this.version = '1.0.0';
         this._W = 1920;
         this._H = 1080;
         this.globalScale = 1;
@@ -17,7 +17,7 @@ class _API extends PIXI.Container {
         this.dataMovie = [];
         this.arClips = [];
         this.options_pause = false;
-        this.options_debug = false;
+        this.options_debug = true;
         this.options_platform = window.self !== window.top;
 
         this.colorFilter = new PIXI.filters.ColorMatrixFilter();
@@ -34,10 +34,10 @@ class _API extends PIXI.Container {
             this.currentScreen = null;
         }
         switch (name) {
-            case "ScrMenu":
+            case 'ScrMenu':
                 this.currentScreen = new ScrMenu();
                 break;
-            case "ScrGame":
+            case 'ScrGame':
                 this.currentScreen = new ScrGame();
                 break;
 
@@ -75,10 +75,10 @@ class _API extends PIXI.Container {
                 return null;
             }
         }
-        if (objImg.anchor) {
-            objImg.anchor.x = 0.5;
-            objImg.anchor.y = 0.5;
-        }
+        // if (objImg.anchor) {
+        objImg.anchor.x = 0.5;
+        objImg.anchor.y = 0.5;
+        // }
         obj.w = objImg.width * obj.scale.x;
         obj.h = objImg.height * obj.scale.y;
         obj.addChild(objImg);
@@ -111,43 +111,41 @@ class _API extends PIXI.Container {
 
     addText(text,
         size = 24,
-        color = "#FFFFFF",
+        color = '#FFFFFF',
         glow = undefined,
-        _align = "center",
+        _align = 'center',
         width = 600,
         px = 2,
-        font = "Tahoma") {
-
-        let style;
+        font = 'Tahoma') {
+        let style = new PIXI.TextStyle();
         
         if (glow) {
-            style = {
-                font: size + "px " + font,
-                fill: color,
-                align: _align,
-                stroke: glow,
-                strokeThickness: px,
-                wordWrap: true,
-                wordWrapWidth: width
-            };
+            style.font = size + 'px ' + font,
+            style.fontFamily = font,
+            style.fill = color,
+            style.align = _align,
+            style.stroke = glow,
+            style.strokeThickness = px,
+            style.wordWrap = true,
+            style.wordWrapWidth = width
         } else {
-            style = {
-                font: size + "px " + font,
-                fill: color,
-                align: _align,
-                wordWrap: true,
-                wordWrapWidth: width
-            };
+            style.font = size + 'px ' + font,
+            style.fontFamily = font,
+            style.fill = color,
+            style.align = _align,
+            style.wordWrap = true,
+            style.wordWrapWidth = width
         }
 
         let obj = new PIXI.Container();
 
         let tfMain = new PIXI.Text(text, style);
+        // console.log(tfMain)
         tfMain.y = 0;
         obj.addChild(tfMain);
-        if (_align == "left") {
+        if (_align == 'left') {
             tfMain.x = 0;
-        } else if (_align == "right") {
+        } else if (_align == 'right') {
             tfMain.x = -tfMain.width;
         } else {
             tfMain.x = - tfMain.width / 2;
@@ -158,9 +156,9 @@ class _API extends PIXI.Container {
 
         obj.setText = function (value) {
             tfMain.text = value;
-            if (_align == "left") {
+            if (_align == 'left') {
                 tfMain.x = 0;
-            } else if (_align == "right") {
+            } else if (_align == 'right') {
                 tfMain.x = -tfMain.width;
             } else {
                 tfMain.x = - tfMain.width / 2;
@@ -213,7 +211,7 @@ class _API extends PIXI.Container {
         obj.addChild(obj.lock);
 
         if (_title) {
-            obj.tf = API.addText(_title, _sizeTF, "#000000", undefined, "center", _w - 20, 4);
+            obj.tf = API.addText(_title, _sizeTF, '#000000', undefined, 'center', _w - 20, 4);
             obj.tf.x = 0;
             obj.tf.y = -obj.tf.height / 2;
             obj.addChild(obj.tf);
@@ -260,7 +258,7 @@ class _API extends PIXI.Container {
             objImg = _self.addObj(name);
             obj.img = objImg;
             obj.addChild(objImg);
-            obj.over = _self.addObj(name + "Over");
+            obj.over = _self.addObj(name + 'Over');
             if (obj.over) {
                 obj.over.visible = false;
                 obj.addChild(obj.over);
@@ -318,6 +316,25 @@ class _API extends PIXI.Container {
     getText(txt) {
         return LangEn.getText(txt);
         //return txt;
+    }
+
+    getNormalTime(ms){
+        if (ms < 0) {
+            return '00:00';
+        }
+        let s = Math.round(ms / 1000);
+        let m = Math.floor(s / 60);
+        s = s - m * 60;
+        let tS = String(s);
+        let tM = String(m);
+
+        if (s < 10 && s >= 0) {
+            tS = '0'+String(s);
+        }
+        if (m < 10 && m >= 0) {
+            tM = '0' + String(m);
+        }
+        return tM + ':' + tS;
     }
 
     get_dd(p1, p2) {

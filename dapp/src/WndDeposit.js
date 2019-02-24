@@ -1,11 +1,11 @@
-import InterfaceObject from "./InterfaceObject.js"
-import API from "./API.js"
+import InterfaceObject from './InterfaceObject.js'
+import API from './API.js'
 
 export default class WndDeposit extends InterfaceObject {
     constructor(prnt, 
         style = {
-            bg: "bgWndDeposit",
-            colorDesc: "#ED9829"
+            bg: 'bgWndDeposit',
+            colorDesc: '#fc8bbb'
         }) {
         super();
 
@@ -24,9 +24,9 @@ export default class WndDeposit extends InterfaceObject {
         let bg = API.addObj(style.bg);
         this.addChild(bg);
         let posLineY = 50;
-        let thinLine = API.addObj("lineScrollM", 0, posLineY);
+        let thinLine = API.addObj('lineScrollM', 0, posLineY);
         this.addChild(thinLine);
-        let fatLine = API.addObj("lineScrollB", 0, posLineY);
+        let fatLine = API.addObj('lineScrollB', 0, posLineY);
         this.addChild(fatLine);
 
         this._fatLine = new PIXI.Graphics();
@@ -47,17 +47,31 @@ export default class WndDeposit extends InterfaceObject {
         scrollZone.y = posLineY;
         scrollZone.w = this._endX - this._stX;
         scrollZone.h = posLineY;
-        scrollZone.name = "scrollZone";
+        scrollZone.name = 'scrollZone';
         scrollZone.visible = false;
         scrollZone._selected = false;
         this.arButtons.push(scrollZone);
 
-        this._btnOk = API.addButton("btnOk", 0, 140, 0.75);
-        this._btnOk.overSc = true;
-        this._btnOk.setDisabled(true);
-        this.addChild(this._btnOk);
-        this.arButtons.push(this._btnOk);
-        this._headScroll = API.addObj("headScroll", this._stX, posLineY);
+        let btnOk = API.addButton('btnText', 120, 140, 0.75);
+        btnOk.name = 'btnOk'
+        btnOk.overSc = true;
+        this.addChild(btnOk);
+        this.arButtons.push(btnOk);
+        let tfStart = API.addText(API.getText('accept'), 50, '#FFFFFF', undefined, 'center', 100);
+        tfStart.x = 0;
+        tfStart.y = -tfStart.height / 2;
+        btnOk.addChild(tfStart);
+        this._btnOk = btnOk;
+        let btnCancel = API.addButton('btnText', -120, 140, 0.75);
+        btnCancel.name = 'btnCancel'
+        btnCancel.overSc = true;
+        this.addChild(btnCancel);
+        this.arButtons.push(btnCancel);
+        let tfCancel = API.addText(API.getText('cancel'), 50, '#FFFFFF', undefined, 'center', 100);
+        tfCancel.x = 0;
+        tfCancel.y = -tfCancel.height / 2;
+        btnCancel.addChild(tfCancel);
+        this._headScroll = API.addObj('headScroll', this._stX, posLineY);
         this._headScroll._selected = false;
         this._headScroll._disabled = false;
         this._headScroll.interactive = true;
@@ -65,16 +79,17 @@ export default class WndDeposit extends InterfaceObject {
         this.addChild(this._headScroll);
         this.arButtons.push(this._headScroll);
 
-        this._tfDesc = API.addText("", 26, style.colorDesc, undefined, "center", 500, 3)
+        this._tfDesc = API.addText('', 26, style.colorDesc, undefined, 'center', 500, 3)
         this._tfDesc.y = -132;
         this.addChild(this._tfDesc);
-        this._tfBet = API.addText("0 BET", 40, "#FFFFFF", undefined, "center", 350, 4)
+        this._tfBet = API.addText('0 BET', 40, '#FFFFFF', undefined, 'center', 350, 4)
         this._tfBet.y = -5 - this._tfBet.height / 2;
         this.addChild(this._tfBet);
     }
 
-    show(str, callback, maxBet) {
+    show(str, callback, maxBet, callback2) {
         this._callback = callback;
+        this._callback2 = callback2;
         this._tfDesc.setText(str);
         this._maxBet = Math.min(maxBet, 100);
         if (this._curBet == 0) {
@@ -94,7 +109,7 @@ export default class WndDeposit extends InterfaceObject {
             this._fatLine.scale.x = 1;
         }
         
-        this._tfBet.setText(String(this._curBet) + " BET");
+        this._tfBet.setText(String(this._curBet) + ' BET');
         if (posX > this._stX && this._curBet >= 0.01) {
             this._btnOk.setDisabled(false);
         }
@@ -111,12 +126,17 @@ export default class WndDeposit extends InterfaceObject {
             item_mc.scale.y = 1 * item_mc.sc;
         }
 
-        if (name == "btnOk") {
+        if (name == 'btnOk') {
             this.prnt.closeWindow(this);
             if (this._callback) {
                 this._callback(this._curBet);
             }
-        } else if (name == "scrollZone") {
+        } else if (name == 'btnCancel') {
+            this.prnt.closeWindow(this);
+            if (this._callback2) {
+                this._callback2();
+            }
+        } else if (name == 'scrollZone') {
             this.scrollHead(evt);
         }
     }
@@ -136,7 +156,7 @@ export default class WndDeposit extends InterfaceObject {
         // value = _self.roundBet(value*100)
         value = Math.round(value)
         this._curBet = value;
-        this._tfBet.setText(String(value) + " BET");
+        this._tfBet.setText(String(value) + ' BET');
 
         if (posX > this._stX && value >= 0.01) {
             this._btnOk.setDisabled(false);
@@ -152,7 +172,7 @@ export default class WndDeposit extends InterfaceObject {
         for (let i = 0; i < this.arButtons.length; i++) {
             let item_mc = this.arButtons[i];
             if (API.hit_test_rec(item_mc, item_mc.w, item_mc.h, mouseX, mouseY)) {
-                if ((item_mc.visible || item_mc.name == "scrollZone") &&
+                if ((item_mc.visible || item_mc.name == 'scrollZone') &&
                     item_mc._selected == false && !item_mc._disabled) {
                     item_mc._selected = true;
                     if (item_mc.over) {
@@ -201,7 +221,7 @@ export default class WndDeposit extends InterfaceObject {
             this._pressHead = false;
             for (i = 0; i < this.arButtons.length; i++) {
                 item_mc = this.arButtons[i];
-                if ((item_mc.visible || item_mc.name == "scrollZone") && item_mc._selected) {
+                if ((item_mc.visible || item_mc.name == 'scrollZone') && item_mc._selected) {
                     this.clickObj(item_mc, evt);
                     return;
                 }

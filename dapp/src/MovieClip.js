@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import API from "./API.js"
+import API from './API.js'
 
 export default class MovieClip extends PIXI.Container {
     constructor() {
