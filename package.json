@@ -21,10 +21,12 @@
   "dependencies": {
     "@daocasino/dc-webapi": "0.2.8",
     "chalk": "2.4.2",
+    "dependents": "3.3.2",
     "ls-remote-versions": "1.1.4",
     "pixi-particles": "3.2.0",
     "pixi.js": "4.8.2",
     "serviceworker-webpack-plugin": "1.0.1",
+    "typescript-estree": "18.1.0",
     "yarn": "1.13.0"
   },
   "devDependencies": {
