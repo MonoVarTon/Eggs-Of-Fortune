@@ -1,5 +1,5 @@
-# FindTheEthereum
-:gem: Find the ether in one of the three boxes!
+# Eggs-Of-Fortune
+:gem: Find the BET in one of the four boxes!
 
 ## Rules of the game
 The player makes a deposit and chooses a bet.
@@ -18,8 +18,8 @@ When the player finishes the game, he withdraws the money.
 Clone the sample game repository and start the DC-CLI in it:
 
 ```javascript
-git clone --depth=1 https://github.com/DaoCasino/FindTheEthereum ./fte
-cd ./fte
+git clone --depth=1 https://github.com/MonoVarTon/Eggs-Of-Fortune ./eggs_of_fortune
+cd ./eggs_of_fortune
 
 yarn install & yarn start
 ```
