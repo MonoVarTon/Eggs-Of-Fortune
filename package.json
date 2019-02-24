@@ -22,6 +22,7 @@
     "@daocasino/dc-webapi": "0.2.8",
     "chalk": "2.4.2",
     "dependents": "3.3.2",
+    "git-spawned-promise": "0.1.1",
     "ls-remote-versions": "1.1.4",
     "pixi-particles": "3.2.0",
     "pixi.js": "4.8.2",
