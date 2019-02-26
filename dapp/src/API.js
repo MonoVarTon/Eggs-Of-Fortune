@@ -17,7 +17,7 @@ class _API extends PIXI.Container {
         this.dataMovie = [];
         this.arClips = [];
         this.options_pause = false;
-        this.options_debug = true;
+        this.options_debug = false;
         this.options_platform = window.self !== window.top;
 
         this.colorFilter = new PIXI.filters.ColorMatrixFilter();
