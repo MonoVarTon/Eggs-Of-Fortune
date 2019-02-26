@@ -1,5 +1,5 @@
 # Eggs-Of-Fortune
-:gem: Find the BET in one of the four boxes!
+:gem: Have you ever been to a casino? Not? Then find the ethereum chip in one of the golden Eggs of Fortune.
 
 ## Rules of the game
 The player makes a deposit and chooses a bet.
