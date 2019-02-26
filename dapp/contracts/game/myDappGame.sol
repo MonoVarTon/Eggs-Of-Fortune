@@ -15,12 +15,12 @@ contract MyDappGame is GameChannel {
     )
         public GameChannel(_engine, _token, _platform, _signidice)
     {
-        gameDevReward  = uint256(25);
-        bankrollReward = uint256(25);
-        platformReward = uint256(25);
+        gameDevReward  = uint256(30);
+        bankrollReward = uint256(15);
+        platformReward = uint256(30);
         refererReward  = uint256(25);
         minBet         = uint256(1);
-        developer      = address(0x42);
+        developer      = address(0x274E0C39175Fab58d4f0d4dE3F1FF86472325A3f);
     }
 
     function getName() external view returns(string) {
