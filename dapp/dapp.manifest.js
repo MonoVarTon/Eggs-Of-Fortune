@@ -6,7 +6,7 @@ const addressFunctions = {
 }
 
 module.exports = {
-  slug: "DCGame_TI_v1",
+  slug: "EggsOfFortune_v1",
   logic: "./dapp.logic.js",
   about: "./README.md",
 
