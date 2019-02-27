@@ -1,4 +1,4 @@
-export default function () {
+module.exports = function () {
   return {
     play: function (userBets, gameData, randoms) {
       const USER_BET = userBets[0]
