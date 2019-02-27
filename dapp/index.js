@@ -3,9 +3,8 @@ import Main from './src/main.js'
 
 document.addEventListener('DOMContentLoaded', async () => {
   const params = {
-    platformId: 'MBP-Aleksandr-2.localdomain',
-    // platformId: 'DC_CloudPlatform',
-    blockchainNetwork: 'local',
+    platformId: 'DC_CloudPlatform',
+    blockchainNetwork: 'ropsten',
     privateKey: '0xaa3680d5d48a8283413f7a108367c7299ca73f553735860a87b08f39395618b7'
   }
   const webapi = new DCWebapi(params)
